@@ -8,7 +8,7 @@
 #define REPS    129
 struct ImgProp ip;
 
-unsigned char** FilpImageH(unsigned char** img){
+unsigned char** FlipImageH(unsigned char** img){
     struct Pixel pix; 
     int row, col;
 
@@ -86,7 +86,7 @@ int main(int argc, char** argv){
         case 'v':
         case 'V': for(a=0;a<REPS;a++) data = FlipImageV(data); break;
         case 'h' : 
-		case 'H' : for(a=0; a<REPS; a++) data = FilpImageH(data); break;
+		case 'H' : for(a=0; a<REPS; a++) data = FlipImageH(data); break;
         default : printf("\n INVALID OPTION\n"); return 0;
     }
 
