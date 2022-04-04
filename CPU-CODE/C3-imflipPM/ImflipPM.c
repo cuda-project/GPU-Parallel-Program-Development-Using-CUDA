@@ -147,9 +147,67 @@ void *MTFlipV(void* tid)
 }
 
 
+void *MTFlipHM(void* tid)
+{
+    struct Pixel pix; //temp swap pixel
+    int row, col;
+	unsigned char Buffer[16384];	 // This is the buffer to use to get the entire row
+
+    long ts = *((int *) tid);       	// My thread ID is stored here
+    ts *= ip.Vpixels/NumThreads;			// start index
+	long te = ts+ip.Vpixels/NumThreads-1; 	// end index
+
+    for(row=ts; row<=te; row++){
+        memcpy((void *) Buffer, (void *) TheImage[row], (size_t) ip.Hbytes);
+		col=0;
+        while(col<ip.Hpixels*3/2){
+            pix.B = Buffer[col];
+            pix.G = Buffer[col+1];
+            pix.R = Buffer[col+2];
+            
+            Buffer[col]   = Buffer[ip.Hpixels*3-(col+3)];
+            Buffer[col+1] = Buffer[ip.Hpixels*3-(col+2)];
+            Buffer[col+2] = Buffer[ip.Hpixels*3-(col+1)];
+            
+            Buffer[ip.Hpixels*3-(col+3)] = pix.B;
+            Buffer[ip.Hpixels*3-(col+2)] = pix.G;
+            Buffer[ip.Hpixels*3-(col+1)] = pix.R;
+            
+            col+=3;
+        }
+        memcpy((void *) TheImage[row], (void *) Buffer, (size_t) ip.Hbytes);
+    }
+    pthread_exit(NULL);
+}
+
+
+void *MTFlipVM(void* tid)
+{
+    struct Pixel pix; //temp swap pixel
+    int row, row2, col;
+	unsigned char Buffer[16384];	 // This is the buffer to get the first row
+	unsigned char Buffer2[16384];	 // This is the buffer to get the second row
+
+    long ts = *((int *) tid);       	// My thread ID is stored here
+    ts *= ip.Vpixels/NumThreads/2;				// start index
+	long te = ts+(ip.Vpixels/NumThreads/2)-1; 	// end index
+
+    for(row=ts; row<=te; row++){
+        memcpy((void *) Buffer, (void *) TheImage[row], (size_t) ip.Hbytes);
+        row2=ip.Vpixels-(row+1);   
+		memcpy((void *) Buffer2, (void *) TheImage[row2], (size_t) ip.Hbytes);
+		// swap row with row2
+		memcpy((void *) TheImage[row], (void *) Buffer2, (size_t) ip.Hbytes);
+		memcpy((void *) TheImage[row2], (void *) Buffer, (size_t) ip.Hbytes);
+    }
+    pthread_exit(NULL);
+}
+
+
+
 /**
  * 
- *   ./imflipPM ../../DATASETS/images/big.bmp ../../DATASETS/images/big_v.bmp v 0
+ *   ./imflipPM ../../DATASETS/images/big.bmp ../../DATASETS/images/big_v.bmp v 8
  * 
  *   ./imflipPM ../../DATASETS/images/big.bmp ../../DATASETS/images/big_v.bmp w 8
  **/
@@ -193,8 +251,8 @@ int main(int argc, char** argv){
 	switch(Flip){
 		case 'V' : 	MTFlipFunc = MTFlipV;  FlipFunc=FlipImageV; strcpy(FlipType,"Vertical (V)"); break;
 		case 'H' : 	MTFlipFunc = MTFlipH;  FlipFunc=FlipImageH; strcpy(FlipType,"Horizontal (H)"); break;
-		//case 'W' : 	MTFlipFunc = MTFlipVM; FlipFunc=FlipImageV; strcpy(FlipType,"Vertical (W)"); break;
-		//case 'I' : 	MTFlipFunc = MTFlipHM; FlipFunc=FlipImageH; strcpy(FlipType,"Horizontal (I)"); break;
+		case 'W' : 	MTFlipFunc = MTFlipVM; FlipFunc=FlipImageV; strcpy(FlipType,"Vertical (W)"); break;
+		case 'I' : 	MTFlipFunc = MTFlipHM; FlipFunc=FlipImageH; strcpy(FlipType,"Horizontal (I)"); break;
 		default  : 	printf("Flip option '%c' is invalid. Can only be 'V', 'H', 'W', or 'I'\n",Flip);
 					printf("\n\nNothing executed ... Exiting ...\n\n");
 					exit(EXIT_FAILURE);
