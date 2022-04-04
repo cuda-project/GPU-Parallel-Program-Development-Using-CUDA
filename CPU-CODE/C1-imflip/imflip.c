@@ -65,7 +65,7 @@ unsigned char** FlipImageV(unsigned char** img){
 
  
 /**
- *  ./imflip ../../DATASETS/images/big2.bmp ../../DATASETS/images/big2_v.bmp v 
+ *  ./imflip ../../DATASETS/images/big.bmp ../../DATASETS/images/big_v.bmp v 
  */
 int main(int argc, char** argv){
     

@@ -6,7 +6,7 @@
 
 #include "ImageStuff.h"
 
-#define REPS 1	     
+#define REPS 1
 #define MAXTHREADS   128
 
 long  			NumThreads;         		// Total number of threads working in parallel
@@ -145,9 +145,9 @@ void *MTFlipV(void* tid){
  
 
 /**
- *   ./imflipP ../../DATASETS/images/big2.bmp ../../DATASETS/images/big2_v.bmp v 1
+ *   ./imflipP ../../DATASETS/images/big.bmp ../../DATASETS/images/big_v.bmp v 1
  * 
- *   ./imflipP ../../DATASETS/images/big2.bmp ../../DATASETS/images/big2_v.bmp v 8
+ *   ./imflipP ../../DATASETS/images/big.bmp ../../DATASETS/images/big_v.bmp v 8
  **/
 int main(int argc, char** argv){
 
