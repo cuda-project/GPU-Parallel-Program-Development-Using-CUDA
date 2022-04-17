@@ -177,7 +177,6 @@ double ReportTimeDelta(double PreviousTime, char *Message)
 
 /*
  * ./imedge ../../DATASETS/images/big.bmp ../../DATASETS/images/big_edge.bmp 4 50 150
-
  */
 int main(int argc, char** argv)
 {
@@ -214,9 +213,9 @@ int main(int argc, char** argv)
     
 	t2 = ReportTimeDelta(t1,"ReadBMP complete");	// Start time without IO
 
-    // 将图像转换为灰度图
-	CopyImage = CreateBlankBMP(NOEDGE);		// This will store the edges in RGB
-	BWImage  = CreateBWCopy(TheImage);
+    
+	CopyImage = CreateBlankBMP(NOEDGE); // B&W 二值图 This will store the edges in RGB
+	BWImage  = CreateBWCopy(TheImage);  // 将图像转换为灰度图
 	GaussImage = CreateBlankDouble();
 	Gradient = CreateBlankDouble();
 	Theta    = CreateBlankDouble();

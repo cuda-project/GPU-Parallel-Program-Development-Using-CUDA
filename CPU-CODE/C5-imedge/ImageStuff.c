@@ -93,6 +93,7 @@ unsigned char** ReadBMP(char* filename)
 
 void WriteBMP(unsigned char** img, char* filename)
 {
+	int i;
 	FILE* f = fopen(filename, "wb");
 	if(f == NULL){
 		printf("\n\nFILE CREATION ERROR: %s\n\n",filename);
@@ -105,16 +106,25 @@ void WriteBMP(unsigned char** img, char* filename)
 	//write header
 	for(x=0; x<54; x++) {	fputc(ip.HeaderInfo[x],f);	}
 
-	//write data
-	for(x=0; x<ip.Vpixels; x++) {
-		for(y=0; y<ip.Hbytes; y++){
-			temp=img[x][y];
-			fputc(temp,f);
-		}
+	//write data fputc 
+	//.....WriteBMP completed             ...     469 ms
+	// for(x=0; x<ip.Vpixels; x++) {
+	// 	for(y=0; y<ip.Hbytes; y++){
+	// 		temp=img[x][y];
+	// 		fputc(temp,f);
+	// 	}
+	// }
+
+	//write data fwrite
+	//.....WriteBMP completed             ...      69 ms
+	for(i=0; i<ip.Vpixels; i++) {
+		fwrite(img[i], sizeof(unsigned char), ip.Hbytes, f);
 	}
+
 	printf("\n  Output BMP File name: %20s  (%u x %u)",filename,ip.Hpixels,ip.Vpixels);
 	fclose(f);
 }
+
 
 
 
