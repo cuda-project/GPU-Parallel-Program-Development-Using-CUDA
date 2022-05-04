@@ -3,3 +3,6 @@ imedge		:	imedge.c ImageStuff.c ImageStuff.h
 
 imedgeMC	:	imedgeMC.c ImageStuff.c ImageStuff.h
 				gcc imedgeMC.c ImageStuff.c -o imedgeMC -lpthread -lm
+
+imedgeMCT	:	imedgeMCT.c ImageStuff.c ImageStuff.h
+				gcc imedgeMCT.c ImageStuff.c -o imedgeMCT -lpthread -lm

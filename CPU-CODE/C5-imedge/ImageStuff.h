@@ -32,9 +32,14 @@ struct PrPixel{
 double** CreateBlankDouble();
 double** CreateBWCopy(unsigned char** img);
 unsigned char** CreateBlankBMP();
-unsigned char** ReadBMP(char* );
+
 void WriteBMP(unsigned char** , char*);
 
+unsigned char** ReadBMP(char* );
 struct PrPixel** PrReadBMP(char*);
+struct PrPixel** PrAMTReadBMP(char*);
 
-extern struct ImgProp 	ip;
+extern struct   ImgProp 	ip;
+extern long 	NumThreads, PrThreads;
+extern int		ThreadCtr[];
+

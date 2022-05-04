@@ -315,7 +315,7 @@ int main(int argc, char** argv)
 	if((NumThreads<1) || (NumThreads>MAXTHREADS)){
             printf("\nNumber of threads must be between 1 and %u... \n",MAXTHREADS);
             printf("\n'1' means Pthreads version with a single thread\n");
-			 printf("\n\nNothing executed ... Exiting ...\n\n");
+			printf("\n\nNothing executed ... Exiting ...\n\n");
             exit(EXIT_FAILURE);
 	}
 	if((ThreshLo<0) || (ThreshHi>255) || (ThreshLo>ThreshHi)){
